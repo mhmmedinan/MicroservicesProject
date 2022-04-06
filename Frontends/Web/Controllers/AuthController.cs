@@ -3,6 +3,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Web.Models;
 using Web.Services.Interfaces;
 
@@ -19,7 +21,7 @@ namespace Web.Controllers
 
         public IActionResult SignIn()
         {
-            return View();
+            return View();  
         }
 
         [HttpPost]
@@ -33,11 +35,18 @@ namespace Web.Controllers
             var response = await _identityService.SignIn(signInInput);
             if (!response.Success)
             {
-                ModelState.AddModelError(String.Empty, "Error");
+                ModelState.AddModelError(String.Empty, "Email veya Şifre Yanlış");
                 return View();
             }
 
             return RedirectToAction(nameof(Index), "Home");
+        }
+
+        public async Task<IActionResult> Logout()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            await _identityService.RevokeRefreshToken();
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 

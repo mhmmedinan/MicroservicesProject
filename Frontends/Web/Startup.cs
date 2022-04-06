@@ -7,6 +7,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Web.Handler;
 using Web.Models;
 using Web.Services;
 using Web.Services.Interfaces;
@@ -25,11 +27,27 @@ namespace Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddHttpContextAccessor();
-
-            services.AddHttpClient<IIdentityService, IdentityService>();
             services.Configure<ClientSettings>(Configuration.GetSection("ClientSettings"));
             services.Configure<ServiceApiSettings>(Configuration.GetSection("ServiceApiSettings"));
+
+            services.AddHttpContextAccessor();
+
+            var serviceApiSettings = Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+            services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+            services.AddHttpClient<IIdentityService, IdentityService>();
+            services.AddHttpClient<IUserService, UserService>(opt =>
+            {
+                opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
+            services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(
+                CookieAuthenticationDefaults.AuthenticationScheme, opts =>
+                {
+                    opts.LoginPath = "/Auth/SignIn";
+                    opts.ExpireTimeSpan = TimeSpan.FromDays(60);
+                    opts.SlidingExpiration = true;
+                    opts.Cookie.Name = "udemywebcookie";
+                });
             services.AddControllersWithViews();
         }
 
@@ -47,7 +65,7 @@ namespace Web
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthentication();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
