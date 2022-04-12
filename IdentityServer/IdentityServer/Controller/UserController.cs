@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Course.Core.Utilities.Results;
 using IdentityServer.Dtos;
 using IdentityServer.Models;
 using IdentityServer4;

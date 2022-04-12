@@ -4,7 +4,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Threading.Tasks;
-using Course.Core.Utilities.Results;
+using Course.Shared.Utilities.Dtos;
 using Web.Models.Catalogs;
 using Web.Services.Interfaces;
 
@@ -27,7 +27,7 @@ namespace Web.Services
                 return null;        
             }
 
-            var responseSuccess = await response.Content.ReadFromJsonAsync<DataResult<List<CourseViewModel>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
             return responseSuccess.Data;
         }
 
@@ -39,7 +39,7 @@ namespace Web.Services
                 return null;
             }
 
-            var responseSuccess = await response.Content.ReadFromJsonAsync<DataResult<List<CategoryViewModel>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CategoryViewModel>>>();
             return responseSuccess.Data;
         }
 
@@ -51,7 +51,7 @@ namespace Web.Services
                 return null;
             }
 
-            var responseSuccess = await response.Content.ReadFromJsonAsync<DataResult<List<CourseViewModel>>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<List<CourseViewModel>>>();
             return responseSuccess.Data;
         }
 
@@ -63,7 +63,7 @@ namespace Web.Services
                 return null;
             }
 
-            var responseSuccess = await response.Content.ReadFromJsonAsync<DataResult<CourseViewModel>>();
+            var responseSuccess = await response.Content.ReadFromJsonAsync<Response<CourseViewModel>>();
             return responseSuccess.Data;
         }
 

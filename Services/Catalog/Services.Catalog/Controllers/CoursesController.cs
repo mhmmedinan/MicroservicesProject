@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Course.Shared.Utilities.ControllerBases;
 using Services.Catalog.Dtos;
 using Services.Catalog.Services.Interfaces;
 
@@ -11,7 +12,7 @@ namespace Services.Catalog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CoursesController : ControllerBase
+    public class CoursesController : CustomBaseController
     {
         private readonly ICourseService _courseService;
 
@@ -24,25 +25,15 @@ namespace Services.Catalog.Controllers
         public IActionResult GetAll()
         {
             var result =  _courseService.GetAll();
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 
-        [HttpGet("{getbyid}")]
+        [HttpGet("{id}")]
         public IActionResult GetById(string id)
         {
             var result = _courseService.GetById(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 
@@ -51,12 +42,7 @@ namespace Services.Catalog.Controllers
         public IActionResult GetAllByUserId(string userId)
         {
             var result =  _courseService.GetAllByUserId(userId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 
@@ -65,13 +51,7 @@ namespace Services.Catalog.Controllers
         public  IActionResult Create(CourseCreateDto courseCreateDto)
         {
             var result =  _courseService.Create(courseCreateDto);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
-
+            return CreateActionResultInstance(result);
         }
 
 
@@ -80,12 +60,7 @@ namespace Services.Catalog.Controllers
         public IActionResult Update(CourseUpdatedDto courseUpdatedDto)
         {
             var result =  _courseService.Update(courseUpdatedDto);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 
@@ -94,12 +69,7 @@ namespace Services.Catalog.Controllers
         public IActionResult Delete(string id)
         {
             var result =_courseService.Delete(id);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
     }

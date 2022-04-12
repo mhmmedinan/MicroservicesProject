@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Course.Shared.Utilities.ControllerBases;
 using Services.Catalog.Dtos;
 using Services.Catalog.Services.Interfaces;
 
@@ -11,7 +12,7 @@ namespace Services.Catalog.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriesController : ControllerBase
+    public class CategoriesController : CustomBaseController
     {
         private readonly ICategoryService _categoryService;
 
@@ -20,17 +21,12 @@ namespace Services.Catalog.Controllers
             _categoryService = categoryService;
         }
 
-        [HttpGet("getall")]
+        [HttpGet]
         public IActionResult GetAll()
         {
             var result =  _categoryService.GetAll();
 
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 
@@ -39,13 +35,7 @@ namespace Services.Catalog.Controllers
         public IActionResult GetById(string id)
         {
             var result =  _categoryService.GetById(id);
-
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 
@@ -55,12 +45,7 @@ namespace Services.Catalog.Controllers
         {
             var result =  _categoryService.Create(categoryDto);
 
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(result);
 
         }
 

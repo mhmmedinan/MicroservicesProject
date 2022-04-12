@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Course.Core.Utilities.Results;
+using Course.Shared.Utilities.Dtos;
 using MediatR;
 using Services.Order.Application.Dtos;
 
 namespace Services.Order.Application.Commands
 {
-    public class CreateOrderCommand:IRequest<IDataResult<CreatedOrderDto>>
+    public class CreateOrderCommand:IRequest<Response<CreatedOrderDto>>
     {
         public string BuyerId { get; set; }
         public List<OrderItemDto> OrderItemDtos { get; set; }

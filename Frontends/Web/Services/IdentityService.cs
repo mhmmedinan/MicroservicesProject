@@ -6,7 +6,6 @@ using System.Net.Http;
 using System.Security.Claims;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Course.Core.Utilities.Results;
 using Course.Shared.Utilities.Dtos;
 using IdentityModel.Client;
 using Microsoft.AspNetCore.Authentication;
@@ -34,7 +33,7 @@ namespace Web.Services
             _httpClient = httpClient;
         }
 
-        public async Task<IDataResult<bool>> SignIn(SignInInput signInInput)
+        public async Task<Response<bool>> SignIn(SignInInput signInInput)
         {
             var disco = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
             {
@@ -63,7 +62,7 @@ namespace Web.Services
                 {
                     PropertyNameCaseInsensitive = true
                 });
-                return new ErrorDataResult<bool>(errorDto.Errors.ToString());
+                return Response<bool>.Fail(errorDto.Errors, 400);
             }
 
             var userInfoRequest = new UserInfoRequest
@@ -94,7 +93,7 @@ namespace Web.Services
             authenticationProperties.IsPersistent = signInInput.IsRemember;
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
 
-            return new SuccessDataResult<bool>("Success");
+            return Response<bool>.Success(200);
         }
 
         public async Task<TokenResponse> GetAccessTokenByRefreshToken()

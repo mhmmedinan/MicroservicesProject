@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Course.Core.Utilities.Results;
+using Course.Shared.Utilities.Dtos;
 using Services.Basket.Dtos;
 
 namespace Services.Basket.Services
 {
     public interface IBasketService
     {
-        IDataResult<BasketDto> GetBasket(string userId);
-        IResult SaveOrUpdate(BasketDto basketDto);
-        IResult Delete(string userId);
+        Task<Response<BasketDto>> GetBasket(string userId);
+
+        Task<Response<bool>> SaveOrUpdate(BasketDto basketDto);
+
+        Task<Response<bool>> Delete(string userId);
     }
 }

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Course.Shared.Utilities.ControllerBases;
 using Course.Shared.Utilities.Services;
 using Services.Basket.Dtos;
 using Services.Basket.Services;
@@ -12,7 +13,7 @@ namespace Services.Basket.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class BasketsController : ControllerBase
+    public class BasketsController : CustomBaseController
     {
         private readonly IBasketService _basketService;
         private readonly ISharedIdentityService _sharedIdentityService;
@@ -24,44 +25,26 @@ namespace Services.Basket.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetBasket()
+        public async Task<IActionResult> GetBasket()
         {
-            var claims = User.Claims;
-            var result = _basketService.GetBasket(_sharedIdentityService.GetUserId);
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(await _basketService.GetBasket(_sharedIdentityService.GetUserId));
         }
 
         [HttpPost]
-        public IActionResult SaveOrUpdate(BasketDto basketDto)
+        public async Task<IActionResult> SaveOrUpdateBasket(BasketDto basketDto)
         {
-            var result = _basketService.SaveOrUpdate(basketDto);
+            basketDto.UserId = _sharedIdentityService.GetUserId;
+            var response = await _basketService.SaveOrUpdate(basketDto);
 
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(response);
         }
 
         [HttpDelete]
-        public IActionResult Delete(BasketDto basketDto)
+        public async Task<IActionResult> DeleteBasket()
+
         {
-            var result = _basketService.Delete(_sharedIdentityService.GetUserId);
-
-            if (result.Success)
-            {
-                return Ok(result);
-            }
-
-            return BadRequest(result);
+            return CreateActionResultInstance(await _basketService.Delete(_sharedIdentityService.GetUserId));
         }
-
 
 
     }

@@ -33,7 +33,7 @@ namespace Web.Controllers
             }
 
             var response = await _identityService.SignIn(signInInput);
-            if (!response.Success)
+            if (!response.IsSuccessful)
             {
                 ModelState.AddModelError(String.Empty, "Email veya Şifre Yanlış");
                 return View();

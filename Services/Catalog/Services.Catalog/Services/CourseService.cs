@@ -4,7 +4,7 @@ using System.Linq;
 using System.Security.Cryptography.X509Certificates;
 using System.Threading.Tasks;
 using AutoMapper;
-using Course.Core.Utilities.Results;
+using Course.Shared.Utilities.Dtos;
 using Services.Catalog.Dtos;
 using Services.Catalog.Models;
 using Services.Catalog.Repositories.Interfaces;
@@ -25,7 +25,7 @@ namespace Services.Catalog.Services
             _categoryRepository = categoryRepository;
 
         }
-        public IDataResult<List<CourseDto>> GetAll()
+        public Response<List<CourseDto>> GetAll()
         {
             var courses = _courseRepository.GetAll(course => true);
             if (courses.Any())
@@ -39,21 +39,21 @@ namespace Services.Catalog.Services
             {
                 courses = new List<Models.Course>();
             }
-            return new SuccessDataResult<List<CourseDto>>(_mapper.Map<List<CourseDto>>(courses), "Kurslar listelendi");
+            return Response<List<CourseDto>>.Success(_mapper.Map<List<CourseDto>>(courses), 200);
         }
 
-        public IDataResult<CourseDto> GetById(string id)
+        public Response<CourseDto> GetById(string id)
         {
-            var courses = _courseRepository.GetById(x => x.Id == id);
-            if (courses == null)
+            var course = _courseRepository.GetById(x => x.Id == id);
+            if (course == null)
             {
-                return new ErrorDataResult<CourseDto>("kurs bulunamadı");
+                return Response<CourseDto>.Fail("Course not found", 404);
             }
-            courses.Category = _categoryRepository.GetById(c => c.Id == courses.CategoryId);
-            return new SuccessDataResult<CourseDto>(_mapper.Map<CourseDto>(courses));
+            course.Category = _categoryRepository.GetById(c => c.Id == course.CategoryId);
+            return Response<CourseDto>.Success(_mapper.Map<CourseDto>(course), 200);
         }
 
-        public IDataResult<List<CourseDto>> GetAllByUserId(string userId)
+        public Response<List<CourseDto>> GetAllByUserId(string userId)
         {
             var courses = _courseRepository.GetAll(c => c.UserId == userId);
             if (courses.Any())
@@ -67,35 +67,35 @@ namespace Services.Catalog.Services
             {
                 courses = new List<Models.Course>();
             }
-            return new SuccessDataResult<List<CourseDto>>(_mapper.Map<List<CourseDto>>(courses), "Kurslar listelendi");
+            return Response<List<CourseDto>>.Success(_mapper.Map<List<CourseDto>>(courses), 200);
         }
 
-        public IDataResult<CourseDto> Create(CourseCreateDto courseCreateDto)
+        public Response<CourseDto> Create(CourseCreateDto courseCreateDto)
         {
             var newCourse = _mapper.Map<Models.Course>(courseCreateDto);
             newCourse.CreatedTime = DateTime.Now;
             _courseRepository.Create(newCourse);
-            return new SuccessDataResult<CourseDto>(_mapper.Map<CourseDto>(newCourse), "Eklendi");
+            return Response<CourseDto>.Success(_mapper.Map<CourseDto>(newCourse), 200);
 
         }
 
-        public IResult Update(CourseUpdatedDto courseUpdatedDto)
+        public Response<NoContent> Update(CourseUpdatedDto courseUpdatedDto)
         {
             var updateCourse = _mapper.Map<Models.Course>(courseUpdatedDto);
             var result = _courseRepository.FindOneAndReplace(x => x.Id == courseUpdatedDto.Id, updateCourse);
 
             if (result == null)
             {
-                return new ErrorResult("Kurs güncellenemedi");
+                return Response<NoContent>.Fail("Course not found", 404);
             }
 
-            return new SuccessResult("Kurs Güncellendi");
+            return Response<NoContent>.Success(204);
         }
 
-        public IResult Delete(string id)
+        public Response<NoContent> Delete(string id)
         {
             _courseRepository.Delete(x => x.Id == id);
-            return new SuccessResult("Silindi");
+            return Response<NoContent>.Success(204);
         }
     }
 }

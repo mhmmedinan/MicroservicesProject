@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
-using Course.Core.Utilities.Results;
+using Course.Shared.Utilities.Dtos;
 using MongoDB.Driver;
 using Services.Catalog.Dtos;
 using Services.Catalog.Models;
@@ -25,28 +25,28 @@ namespace Services.Catalog.Services
 
         }
 
-        public IDataResult<List<CategoryDto>> GetAll()
+        public Response<List<CategoryDto>> GetAll()
         {
             var categories = _categoryRepository.GetAll();
 
-            return new SuccessDataResult<List<CategoryDto>>(_mapper.Map<List<CategoryDto>>(categories), "Listelendi");
+            return Response<List<CategoryDto>>.Success(_mapper.Map<List<CategoryDto>>(categories), 200);
         }
 
-        public IDataResult<CategoryDto> GetById(string id)
+        public Response<CategoryDto> GetById(string id)
         {
             var category = _categoryRepository.GetById(x => x.Id == id);
             if (category == null)
             {
-                return new ErrorDataResult<CategoryDto>("Kategori bulunamadı");
+                return Response<CategoryDto>.Fail("Category not found", 404);
             }
-            return new SuccessDataResult<CategoryDto>(_mapper.Map<CategoryDto>(category), "Id'ye göre listelendi");
+            return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
 
-        public IDataResult<CategoryDto> Create(CategoryDto categoryDto)
+        public Response<CategoryDto> Create(CategoryDto categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
             _categoryRepository.Create(category);
-            return new SuccessDataResult<CategoryDto>(_mapper.Map<CategoryDto>(categoryDto), "Eklendi");
+            return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
     }
 }

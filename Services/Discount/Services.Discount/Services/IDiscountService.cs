@@ -2,20 +2,24 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Course.Core.Utilities.Results;
+using Course.Shared.Utilities.Dtos;
 using Services.Discount.Models;
 
 namespace Services.Discount.Services
 {
     public interface IDiscountService
     {
-        IDataResult<List<Models.Discount>> GetAll();
+        Task<Response<List<Models.Discount>>> GetAll();
 
-        IDataResult<Models.Discount> GetById(int id);
-        IResult Save(Models.Discount discount);
-        IResult Update(Models.Discount discount);
-        IResult Delete(int id);
-        IDataResult<Models.Discount> GetByCodeAndUserId(string code,string userId);
+        Task<Response<Models.Discount>> GetById(int id);
+
+        Task<Response<NoContent>> Save(Models.Discount discount);
+
+        Task<Response<NoContent>> Update(Models.Discount discount);
+
+        Task<Response<NoContent>> Delete(int id);
+
+        Task<Response<Models.Discount>> GetByCodeAndUserId(string code, string userId);
 
 
     }
