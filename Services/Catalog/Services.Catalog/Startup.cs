@@ -13,7 +13,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
-using Services.Catalog.Extensions;
 using Services.Catalog.Models;
 using Services.Catalog.Services;
 using Services.Catalog.Services.Interfaces;
@@ -34,15 +33,21 @@ namespace Services.Catalog
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-
+            services.AddScoped<ICategoryService, CategoryService>();
+            services.AddScoped<ICourseService, CourseService>();
             services.AddAutoMapper(typeof(Startup));
             services.AddControllers(options =>
             {
                 options.Filters.Add(new AuthorizeFilter());
             });
-            services.AddCors();
-            services.AddMongoDbSettings(Configuration);
-           
+            
+            services.Configure<DatabaseSettings>(Configuration.GetSection("DatabaseSettings"));
+            services.AddSingleton<IDatabaseSettings>(sp =>
+            {
+                return sp.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+            });
+
+
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Services.Catalog", Version = "v1" });
@@ -68,7 +73,6 @@ namespace Services.Catalog
             }
 
             app.UseRouting();
-            app.UseCors(builder => builder.SetIsOriginAllowed(origin => true).AllowAnyMethod().AllowCredentials().AllowAnyHeader());
             app.UseAuthorization();
             app.UseAuthentication();
             app.UseEndpoints(endpoints =>

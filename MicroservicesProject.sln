@@ -56,7 +56,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Gateway", "Gateway\Gateway.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Frontends", "Frontends", "{3E15C331-F79D-45C3-8955-2D251DAEB27E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Web", "Frontends\Web\Web.csproj", "{428DEA02-70CB-4418-9799-384843B13E33}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Web", "Frontends\Web\Web.csproj", "{428DEA02-70CB-4418-9799-384843B13E33}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

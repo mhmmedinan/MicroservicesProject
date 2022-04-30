@@ -21,54 +21,54 @@ namespace Services.Catalog.Controllers
             _courseService = courseService;
         }
 
-        [HttpGet("getall")]
-        public IActionResult GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var result =  _courseService.GetAll();
+            var result = await _courseService.GetAllAsync();
             return CreateActionResultInstance(result);
 
         }
 
         [HttpGet("{id}")]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var result = _courseService.GetById(id);
+            var result = await _courseService.GetByIdAsync(id);
             return CreateActionResultInstance(result);
 
         }
 
         [HttpGet]
         [Route("/api/[controller]/GetAllByUserId/{userId}")]
-        public IActionResult GetAllByUserId(string userId)
+        public async Task<IActionResult> GetAllByUserId(string userId)
         {
-            var result =  _courseService.GetAllByUserId(userId);
+            var result = await _courseService.GetAllByUserIdAsync(userId);
             return CreateActionResultInstance(result);
 
         }
 
 
         [HttpPost]
-        public  IActionResult Create(CourseCreateDto courseCreateDto)
+        public async Task<IActionResult> Create(CourseCreateDto courseCreateDto)
         {
-            var result =  _courseService.Create(courseCreateDto);
+            var result = await _courseService.CreateAsync(courseCreateDto);
             return CreateActionResultInstance(result);
         }
 
 
 
         [HttpPut]
-        public IActionResult Update(CourseUpdatedDto courseUpdatedDto)
+        public async Task<IActionResult> Update(CourseUpdatedDto courseUpdatedDto)
         {
-            var result =  _courseService.Update(courseUpdatedDto);
+            var result = await  _courseService.UpdateAsync(courseUpdatedDto);
             return CreateActionResultInstance(result);
 
         }
 
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(string id)
+        public async Task<IActionResult> Delete(string id)
         {
-            var result =_courseService.Delete(id);
+            var result = await _courseService.DeleteAsync(id);
             return CreateActionResultInstance(result);
 
         }

@@ -10,9 +10,11 @@ namespace Services.Catalog.Services.Interfaces
 {
     public interface ICategoryService
     {
-        Response<List<CategoryDto>> GetAll();
-        Response<CategoryDto> GetById(string id);
-        Response<CategoryDto> Create(CategoryDto categoryDto);
+        Task<Response<List<CategoryDto>>> GetAllAsync();
+
+        Task<Response<CategoryDto>> CreateAsync(CategoryDto category);
+
+        Task<Response<CategoryDto>> GetByIdAsync(string id);
 
     }
 }

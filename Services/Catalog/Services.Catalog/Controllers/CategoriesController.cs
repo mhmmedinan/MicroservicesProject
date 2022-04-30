@@ -22,9 +22,9 @@ namespace Services.Catalog.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IActionResult> GetAll()
         {
-            var result =  _categoryService.GetAll();
+            var result = await  _categoryService.GetAllAsync();
 
             return CreateActionResultInstance(result);
 
@@ -32,18 +32,18 @@ namespace Services.Catalog.Controllers
 
 
         [HttpGet("getbyid")]
-        public IActionResult GetById(string id)
+        public async Task<IActionResult> GetById(string id)
         {
-            var result =  _categoryService.GetById(id);
+            var result = await _categoryService.GetByIdAsync(id);
             return CreateActionResultInstance(result);
 
         }
 
 
         [HttpPost]
-        public  IActionResult Create(CategoryDto categoryDto)
+        public async Task<IActionResult> Create(CategoryDto categoryDto)
         {
-            var result =  _categoryService.Create(categoryDto);
+            var result = await  _categoryService.CreateAsync(categoryDto);
 
             return CreateActionResultInstance(result);
 

@@ -5,15 +5,13 @@ using System.Threading.Tasks;
 
 namespace Services.Catalog.Settings
 {
-    public class DatabaseSettings
+    public class DatabaseSettings:IDatabaseSettings
     {
-        public string ConnectionString;
-        public string Database;
+        public string CourseCollectionName { get; set; }
+        public string CategoryCollectionName { get; set; }
+        public string ConnectionString { get; set; }
+        public string DatabaseName { get; set; }
 
-        public const string ConnectionStringValue = nameof(ConnectionString);
-        public const string DatabaseValue = nameof(Database);
 
-
-      
     }
 }
