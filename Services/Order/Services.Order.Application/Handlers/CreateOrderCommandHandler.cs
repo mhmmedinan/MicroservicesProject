@@ -27,7 +27,7 @@ namespace Services.Order.Application.Handlers
                 request.Address.Street, request.Address.ZipCode, request
                     .Address.Line);
             Domain.OrderAggregate.Order newOrder = new Domain.OrderAggregate.Order(request.BuyerId,newAddress);
-            request.OrderItemDtos.ForEach(x =>
+            request.OrderItems.ForEach(x =>
             {
                 newOrder.AddOrderItem(x.ProductId,x.ProductName,x.Price,x.PictureUrl);
             });

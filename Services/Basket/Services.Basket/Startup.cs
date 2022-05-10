@@ -12,10 +12,12 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
 using System.Threading.Tasks;
 using Course.Shared.Utilities.Services;
+using MassTransit;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Options;
+using Services.Basket.Consumers;
 using Services.Basket.Services;
 using Services.Basket.Settings;
 
@@ -33,6 +35,27 @@ namespace Services.Basket
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddMassTransit(x =>
+            {
+               
+                x.AddConsumer<BasketCourseNameChangedEventConsumer>();
+                // Default Port : 5672
+                x.UsingRabbitMq((context, cfg) =>
+                {
+                    cfg.Host(Configuration["RabbitMQUrl"], "/", host =>
+                    {
+                        host.Username("guest");
+                        host.Password("guest");
+                    });
+                    
+
+                    cfg.ReceiveEndpoint("course-name-changed-event-basket-service", e =>
+                    {
+                        e.ConfigureConsumer<BasketCourseNameChangedEventConsumer>(context);
+                    });
+                });
+            });
+            services.AddMassTransitHostedService();
             var requireAuthorizePolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Remove("sub");
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>

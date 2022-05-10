@@ -35,7 +35,8 @@ namespace Services.PhotoStock.Controllers
 
             return CreateActionResultInstance(Response<PhotoDto>.Fail("photo is empty", 400));
         }
-
+        
+        [HttpDelete]
         public IActionResult PhotoDelete(string photoUrl)
         {
             var path = Path.Combine(Directory.GetCurrentDirectory(),"wwwroot/photos",photoUrl);
