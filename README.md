@@ -1,9 +1,9 @@
 # MicroservicesProject
 Microservices :
 
-Catalog Microservice
+<h2>Catalog Microservice</h2>
 
-Kurslarımız ile ilgili bilgilerin tutulmasından ve sunulmasından sorumlu olacak mikroservisimiz.
+Kurslarımız ile ilgili bilgilerin tutulmasından ve sunulmasından sorumlu olacak mikroservis.
 
 MongoDb (Veritabanı)
 
