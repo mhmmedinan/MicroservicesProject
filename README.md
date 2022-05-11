@@ -50,7 +50,7 @@ Kurs fotograflarının tutulmasından ve sunulmasından sorumlu olacak mikroserv
 <h2>API Gateway</h2>
 
 Ocelot Library
-
+<hr></hr>
 Mesaj kuyruk sistemi olarak RabbitMQ kullanıldı.
 
 RabbitMQ ile haberleşmek için MassTransit kütüphanesini kullanıldı.
