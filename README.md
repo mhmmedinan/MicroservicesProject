@@ -11,67 +11,52 @@ One-To-Many/One-To-One ilişki
 
 MongoDb
 
-Basket Microservice
+<h2>Basket Microservice</h2>
 
-Sepet işlemlerinden sorumlu olacak mikroservisimiz.
+Sepet işlemlerinden sorumlu olacak mikroservis.
 
 RedisDB(Veritabanı)
 
-Discount Microservice
+<h2>Discount Microservice</h2>
 
-Kullanıcıya tanımlanacak indirim kuponlarından sorumlu olacak mikroservisimiz.
+Kullanıcıya tanımlanacak indirim kuponlarından sorumlu olacak mikroservis.
 
 PostgreSQL(Veritabanı)
 
-Order Microservice
+<h2>Order Microservice</h2>
 
-Sipariş işlemlerinden sorumlu olacak mikroservisimiz.
-
-Bu mikroservisimizde Domain Driven Design yaklaşımını kullanarak geliştiriyor olacağız.
-
-Bu mikroservisimizde CQRS tasarım kalıbını uygulamak için MediatR kütüphanesini kullanıyor olacağız.
+Sipariş işlemlerinden sorumlu olacak mikroservis.
 
 Sql Server(Veritabanı)
 
 Domain Driven Design
 
-CQRS (MediatR Libarary)
+CQRS (MediatR Library)
 
-FakePayment Microservice
+<h2>FakePayment Microservice</h2>
 
-Ödeme işlemlerinden sorumlu olacak mikroservisimiz.
+Ödeme işlemlerinden sorumlu olacak mikroservis.
 
-IdentityServer Microservice
+<h2>Identity Microservice</h2>
 
 Sql Server(Veritabanı)
 
-Kullanıcı dataların tutulmasından,token ve refreshtoken üretilmesinden sorumlu olacak microservisimiz.
+Kullanıcı dataların tutulmasından,token ve refreshtoken üretilmesinden sorumlu olacak mikroservis.
 
-PhotoStock Microservice
+<h2>PhotoStock Microservice</h2>
 
-Kurs fotograflarının tutulmasından ve sunulmasından sorumlu olacak mikroservisimiz.
+Kurs fotograflarının tutulmasından ve sunulmasından sorumlu olacak mikroservis.
 
-API Gateway
+<h2>API Gateway</h2>
 
 Ocelot Library
 
-Message Broker
+Mesaj kuyruk sistemi olarak RabbitMQ kullanıldı.
 
-Mesaj kuyruk sistemi olarak RabbitMQ kullanıyor olacağız.
-
-RabbitMQ ile haberleşmek için MassTransit kütüphanesini kullanıyor olacağız.
+RabbitMQ ile haberleşmek için MassTransit kütüphanesini kullanıldı.
 
 RabbitMQ (MassTransit Library)
 
-Identity Server
+UI tarafı için Asp.Net Mvc kullanıldı.
 
-Token / RefreshToken üretmek
-
-Access Token ile microservice'lerimizi korumak
-
-OAuth 2.0 / OpenID Connect protokollerine uygun yapı inşa etmek
-
-Asp.Net Core MVC Microservice
-
-Microservice'lerden almış olduğu dataları kullanıcıya gösterecek ve kullanıcı ile etkileşime geçmekten sorumlu olacak UI mikroservisimiz
 <img src="https://github.com/mrm65/MicroservicesProject/blob/master/1.png" width="auto"> 
